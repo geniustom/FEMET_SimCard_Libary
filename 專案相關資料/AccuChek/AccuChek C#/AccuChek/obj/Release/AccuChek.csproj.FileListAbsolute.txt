@@ -1,0 +1,4 @@
+C:\Users\Administrator\Documents\Visual Studio 2013\Projects\AccuChek\AccuChek\bin\Release\AccuChek.exe
+C:\Users\Administrator\Documents\Visual Studio 2013\Projects\AccuChek\AccuChek\bin\Release\AccuChek.pdb
+C:\Users\Administrator\Documents\Visual Studio 2013\Projects\AccuChek\AccuChek\obj\Release\AccuChek.exe
+C:\Users\Administrator\Documents\Visual Studio 2013\Projects\AccuChek\AccuChek\obj\Release\AccuChek.pdb

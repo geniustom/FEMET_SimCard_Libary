@@ -1,0 +1,1 @@
+AccuChek.exe COM5

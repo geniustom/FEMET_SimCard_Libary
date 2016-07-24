@@ -1,0 +1,9 @@
+FILE QUARANTINED
+
+Microsoft Forefront Protection for Exchange Server removed a file since it was found to match a filter.
+File name: "winmail.dat->MVI_0817.wmv"
+Filter name: "FILE FILTER= File Types No Allowed: *"
+
+NOTICE: Based on the current E-Mail Attachment Handling Policy, the Roche E-Mail Service has BLOCKED and REMOVED 
+the following invalid attachment from this message. 
+For additional information about the E-Mail Attachment Handling Policy, please see: http://attachmenthandling.roche.com

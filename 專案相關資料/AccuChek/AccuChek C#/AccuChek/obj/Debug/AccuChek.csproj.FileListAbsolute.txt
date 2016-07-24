@@ -1,0 +1,7 @@
+c:\users\administrator\documents\visual studio 2013\Projects\AccuChek\AccuChek\bin\Debug\AccuChek.exe
+c:\users\administrator\documents\visual studio 2013\Projects\AccuChek\AccuChek\bin\Debug\AccuChek.pdb
+c:\users\administrator\documents\visual studio 2013\Projects\AccuChek\AccuChek\obj\Debug\AccuChek.csprojResolveAssemblyReference.cache
+c:\users\administrator\documents\visual studio 2013\Projects\AccuChek\AccuChek\obj\Debug\AccuChek.exe
+c:\users\administrator\documents\visual studio 2013\Projects\AccuChek\AccuChek\obj\Debug\AccuChek.pdb
+C:\Users\Geniustom\Desktop\AccuChek\AccuChek C#\AccuChek\obj\Debug\AccuChek.exe
+C:\Users\Geniustom\Desktop\AccuChek\AccuChek C#\AccuChek\obj\Debug\AccuChek.pdb
