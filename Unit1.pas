@@ -286,7 +286,7 @@ begin
       ACCUDataList.Add(ACCUDataDate+','+ACCUDataTime+','+ACCUDataValue);
       if ACCUDataList.Count=ACCUDataCount then ACCUFinally:=true;
    end;
-{
+
    if (ACCUBufIndex=36)and (ACCUDataBuf[0]=chr($61)) then        //只有10~99筆
    begin
       os:=2;
@@ -305,7 +305,7 @@ begin
       ACCUDataList.Add(ACCUDataDate+','+ACCUDataTime+','+ACCUDataValue);
       if ACCUDataList.Count=ACCUDataCount then ACCUFinally:=true;
    end;
-}
+
    if ACCUFinally then
    begin
       //showmessage(ACCUDataList.DelimitedText);
@@ -365,10 +365,11 @@ const
   READ_MEMORY       :array[0..6] of byte = ($61,$09,$30,$09,$30,$0D,$06);
 
   SEND_BYTEDELAY    = 10;
-  CMDDELAY          = 20;
+  CMDDELAY          = 10;
 var
   i,j:integer;
   READ_MEMORY_CNT   :array[0..6] of byte;
+  READ_MEMORY_VAR   :string;
   len:integer;
   READ_CMD:TCMD;
 begin
@@ -399,16 +400,21 @@ begin
     form1.ACCU_Log.Lines.Add('----- 讀取資料 -----');
     form1.Progress.Position:=0;
     form1.Progress.Max:=ACCUDataCount;
+
     for i:=1 to ACCUDataCount do
     begin
        form1.Progress.Position:=i;
-
+       {
+       //只能1~9筆
        for j:=0 to 6 do
           READ_MEMORY_CNT[j]:= READ_MEMORY[j];
        READ_MEMORY_CNT[2]:=$30+i;
        READ_MEMORY_CNT[4]:=$30+i;
        WriteACCUCMD(@READ_MEMORY_CNT,7,SEND_BYTEDELAY);
-       READ_CMD:=GenReadCmdforACCu(i,len);
+       }
+       READ_MEMORY_VAR:= #97+#09+inttostr(i)+#09+inttostr(i)+#13+#06;
+       WriteACCUCMD(pchar(READ_MEMORY_VAR),length(READ_MEMORY_VAR),SEND_BYTEDELAY);
+       //READ_CMD:=GenReadCmdforACCu(i,len);
 
        //showmessage(pchar(READ_CMD));
        //WriteACCUCMD(READ_CMD,len,SEND_BYTEDELAY);

@@ -26,12 +26,6 @@ object Form1: TForm1
     ActivePage = TabSheet3
     Align = alClient
     DockSite = True
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
     RaggedRight = True
     Style = tsFlatButtons
     TabOrder = 0
@@ -42206,7 +42200,7 @@ object Form1: TForm1
       object Label2: TLabel
         Left = 0
         Top = 0
-        Width = 448
+        Width = 563
         Height = 27
         Align = alTop
         Alignment = taCenter
@@ -42252,6 +42246,12 @@ object Form1: TForm1
         Top = 168
         Width = 544
         Height = 289
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -9
+        Font.Name = 'Microsoft Sans Serif'
+        Font.Style = []
+        ParentFont = False
         ScrollBars = ssVertical
         TabOrder = 1
       end
