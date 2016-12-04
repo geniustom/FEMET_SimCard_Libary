@@ -10,7 +10,7 @@ uses
 
 begin
   Application.Initialize;
-  Application.Title := '血糖計資料讀取';
+  Application.Title := 'Data Transmission';
   Application.CreateForm(TForm1, Form1);
   Application.Run;
 end.

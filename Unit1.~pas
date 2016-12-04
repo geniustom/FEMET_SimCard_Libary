@@ -19,9 +19,7 @@ type
     Label3: TLabel;
     Button2: TButton;
     TabSheet4: TTabSheet;
-    Label4: TLabel;
     TabSheet5: TTabSheet;
-    Label2: TLabel;
     Label1: TLabel;
     ID: TEdit;
     Label6: TLabel;
@@ -38,6 +36,10 @@ type
     ACCU_Log: TMemo;
     Image4: TImage;
     DbgModChk: TCheckBox;
+    Label4: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label2: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
@@ -105,7 +107,9 @@ begin
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
-var tempindex:integer;
+var
+  tempindex:integer;
+  PicPath:string;
 begin
    CloseFlag:=false;
    FinishFlag:=false;
@@ -119,7 +123,10 @@ begin
    ShowAbbott:=ConfigINI.ReadBool('Device','ShowAbbott',true);
    ShowAccu:=ConfigINI.ReadBool('Device','ShowAccu',true);
    DebugMode:=ConfigINI.ReadBool('Device','DebugMode',false);
+   PicPath:=ConfigINI.ReadString('Device','IDInputPicPath','');
    DeviceSel.Items.Clear;
+
+   if PicPath<>'' then image1.Picture.LoadFromFile(PicPath);
 
    if ShowAbbott then
    begin
@@ -158,6 +165,7 @@ const
         23,24,25,26,27,28,29,30,31,32,33,34,35);
 var V:integer;
 begin
+{
     result := False;
     if length(sIdNo)<>10 then exit;
     if sIdNo[1] in ['A'..'Z'] then
@@ -171,6 +179,10 @@ begin
         div 10 = V / 10);
         //SHOWMESSAGE(BOOLTOSTR(result));
     end
+}
+  result := False;
+  if length(sIdNo)=0 then exit;
+  result:=true;
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
@@ -184,7 +196,8 @@ begin
   end
   else
   begin
-    showmessage('身分證字號不合法,請檢查是否輸入錯誤');
+    //showmessage('身分證字號不合法,請檢查是否輸入錯誤');
+    showmessage('ID number is empty ! Please check it.');
   end;
 end;
 
@@ -392,7 +405,8 @@ begin
     begin
       form1.Progress.Position:=100;
       FinishFlag:=true;
-      showmessage('血糖機目前無資料，請按 "OK" 回到上一頁');
+      //showmessage('血糖機目前無資料，請按 "OK" 回到上一頁');
+      showmessage('No any data.'+#13+'Please click "OK" to back to the main program.');
       CloseFlag:=true;
       form1.close;
       exit;
@@ -454,7 +468,8 @@ begin
   try
     COMM1.StartComm;
   except
-    showmessage('系統無此連接埠，請確定傳輸線接妥與連接埠設定正確');
+    //showmessage('系統無此連接埠，請確定傳輸線接妥與連接埠設定正確');
+    showmessage('Com port incorrect ! '+#13+'Please check the cable connected and select the correct Com port');
     form1.Close;
   end;
   Delay(500);
@@ -482,9 +497,11 @@ begin
   begin
     case DeviceSel.ItemIndex+DeviceIndexOffset of
     0,1,2:
-      showmessage('無法讀取資料，請確認裝置正確連接並顯示出PC');
+      //showmessage('無法讀取資料，請確認裝置正確連接並顯示出PC');
+      showmessage('Can''t read data !'+#13+'Please check the device is connected and displaying "PC"');
     3:
-      showmessage('無法讀取資料，請確認血糖機是否開啟紅外線');
+      //showmessage('無法讀取資料，請確認血糖機是否開啟紅外線');
+      showmessage('Can''t read data !'+#13+'Please check the device IR is enabled');
     end;
     CloseFlag:=true;
     form1.Close;
@@ -647,9 +664,9 @@ var
  T:string;
 begin
     rowIndex:=1;
-    MD.Cells[0,0]:='日期';
-    MD.Cells[1,0]:='時間';
-    MD.Cells[2,0]:='血糖';
+    MD.Cells[0,0]:='Date';
+    MD.Cells[1,0]:='Time';
+    MD.Cells[2,0]:='Glucose';
     AbbottRow:=TStringlist.Create;
     AbbottRow.Delimiter:=#13;
     XML.IDNO:=ID.Text;
@@ -703,8 +720,8 @@ begin
       if FinishFlag=false then
       begin
         FinishFlag:=true;
-        showmessage('血糖機目前無資料，請按 "OK" 回到上一頁');
-        CloseFlag:=true;
+        //showmessage('血糖機目前無資料，請按 "OK" 回到上一頁');
+        showmessage('No any data.'+#13+'Please click "OK" to back to the main program.');        CloseFlag:=true;
         form1.close;
         exit;
       end;
@@ -714,13 +731,17 @@ begin
         if FinishFlag=false then
         begin
           FinishFlag:=true;
-          if Application.MessageBox('血糖計資料讀取完成，請問要刪除血糖計資料嗎?','您好',mb_iconquestion+MB_YESNO)=IDYES then
+//          if Application.MessageBox('血糖計資料讀取完成，請問要刪除血糖計資料嗎?','您好',mb_iconquestion+MB_YESNO)=IDYES then
+          if Application.MessageBox('Finishing the data transmission.'+#13+'Delete all data?','Hello',mb_iconquestion+MB_YESNO)=IDYES then
           begin
             DeleteDataXceedNew(Comm1);
-            showmessage('血糖計資料已刪除，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
+            //showmessage('血糖計資料已刪除，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
+            showmessage('Data is deleted.'+#13+'Please click "OK" to back to the main program.');
+
           end
           else
-            showmessage('血糖計資料讀取完成，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
+            //showmessage('血糖計資料讀取完成，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
+            showmessage('Finish the data transmission.'+#13+'Please click "OK" to back to the main program.');
 
           XML.MeasureData:=AbbottRow;
           CreateXML(XML);
@@ -745,9 +766,9 @@ var
 begin
     rowIndex:=1;
     DataCount:=0;
-    MD.Cells[0,0]:='日期';
-    MD.Cells[1,0]:='時間';
-    MD.Cells[2,0]:='血糖';
+    MD.Cells[0,0]:='Date';
+    MD.Cells[1,0]:='Time';
+    MD.Cells[2,0]:='Glucose';
     AbbottRow:=TStringlist.Create;
     AbbottRow.Delimiter:=#13;
     XML.IDNO:=ID.Text;
@@ -791,8 +812,8 @@ begin
       if FinishFlag=false then
       begin
         FinishFlag:=true;
-        showmessage('血糖機目前無資料，請按 "OK" 回到上一頁');
-        CloseFlag:=true;
+        //showmessage('血糖機目前無資料，請按 "OK" 回到上一頁');
+        showmessage('No any data.'+#13+'Please click "OK" to back to the main program.');        CloseFlag:=true;
         form1.close;
         exit;
       end;
@@ -802,14 +823,15 @@ begin
       if FinishFlag=false then
       begin
         FinishFlag:=true;
-        if Application.MessageBox('血糖計資料讀取完成，請問要刪除血糖計資料嗎?','您好',mb_iconquestion+MB_YESNO)=IDYES then
+//      if Application.MessageBox('血糖計資料讀取完成，請問要刪除血糖計資料嗎?','您好',mb_iconquestion+MB_YESNO)=IDYES then
+        if Application.MessageBox('Finishing the data transmission.'+#13+'Delete all data?','Hello',mb_iconquestion+MB_YESNO)=IDYES then
         begin
           DeleteDataFreeStyle(Comm1);
-          showmessage('血糖計資料已刪除，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
-        end
+          //showmessage('血糖計資料已刪除，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
+          showmessage('Data is deleted.'+#13+'Please click "OK" to back to the main program.');        end
         else
-          showmessage('血糖計資料讀取完成，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
-
+          //showmessage('血糖計資料讀取完成，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
+          showmessage('Finish the data transmission.'+#13+'Please click "OK" to back to the main program.');
         XML.MeasureData:=AbbottRow;
         CreateXML(XML);
 
@@ -832,9 +854,9 @@ var
  DataCount:integer;
 begin
     rowIndex:=1;
-    MD.Cells[0,0]:='日期';
-    MD.Cells[1,0]:='時間';
-    MD.Cells[2,0]:='血糖';
+    MD.Cells[0,0]:='Date';
+    MD.Cells[1,0]:='Time';
+    MD.Cells[2,0]:='Glucose';
     AbbottRow:=TStringlist.Create;
     AbbottRow.Delimiter:=#13;
     XML.IDNO:=ID.Text;
@@ -874,8 +896,8 @@ begin
       if FinishFlag=false then
       begin
         FinishFlag:=true;
-        showmessage('血糖機目前無資料，請按 "OK" 回到上一頁');
-        CloseFlag:=true;
+        //showmessage('血糖機目前無資料，請按 "OK" 回到上一頁');
+        showmessage('No any data.'+#13+'Please click "OK" to back to the main program.');        CloseFlag:=true;
         form1.close;
         exit;
       end;
@@ -885,13 +907,15 @@ begin
       if FinishFlag=false then
       begin
         FinishFlag:=true;
-        if Application.MessageBox('血糖計資料讀取完成，請問要刪除血糖計資料嗎?','您好',mb_iconquestion+MB_YESNO)=IDYES then
+//      if Application.MessageBox('血糖計資料讀取完成，請問要刪除血糖計資料嗎?','您好',mb_iconquestion+MB_YESNO)=IDYES then
+        if Application.MessageBox('Finishing the data transmission.'+#13+'Delete all data?','Hello',mb_iconquestion+MB_YESNO)=IDYES then
         begin
           DeleteDataXceedOld(Comm1);
-          showmessage('血糖計資料已刪除，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
-        end
+          //showmessage('血糖計資料已刪除，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
+          showmessage('Data is deleted.'+#13+'Please click "OK" to back to the main program.');        end
         else
-          showmessage('血糖計資料讀取完成，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
+          //showmessage('血糖計資料讀取完成，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
+          showmessage('Finish the data transmission.'+#13+'Please click "OK" to back to the main program.');
 
         XML.MeasureData:=AbbottRow;
         CreateXML(XML);
@@ -916,9 +940,9 @@ var
  T:string;
 begin
     rowIndex:=1;
-    MD.Cells[0,0]:='日期';
-    MD.Cells[1,0]:='時間';
-    MD.Cells[2,0]:='血糖';
+    MD.Cells[0,0]:='Date';
+    MD.Cells[1,0]:='Time';
+    MD.Cells[2,0]:='Glucose';
     ACCURow:=TStringlist.Create;
     ACCURow.Delimiter:=',';
     XML.IDNO:=ID.Text;
@@ -939,8 +963,8 @@ begin
       if FinishFlag=false then
       begin
         FinishFlag:=true;
-        showmessage('血糖機目前無資料，請按 "OK" 回到上一頁');
-        CloseFlag:=true;
+        //showmessage('血糖機目前無資料，請按 "OK" 回到上一頁');
+        showmessage('No any data.'+#13+'Please click "OK" to back to the main program.');        CloseFlag:=true;
         form1.close;
         exit;
       end;
@@ -950,13 +974,16 @@ begin
         if FinishFlag=false then
         begin
           FinishFlag:=true;
-          if Application.MessageBox('血糖計資料讀取完成，請問要刪除血糖計資料嗎?','您好',mb_iconquestion+MB_YESNO)=IDYES then
+//        if Application.MessageBox('血糖計資料讀取完成，請問要刪除血糖計資料嗎?','您好',mb_iconquestion+MB_YESNO)=IDYES then
+          if Application.MessageBox('Finishing the data transmission.'+#13+'Delete all data?','Hello',mb_iconquestion+MB_YESNO)=IDYES then
           begin
             DeleteDataACCU(Comm1);
-            showmessage('血糖計資料已刪除，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
+            //showmessage('血糖計資料已刪除，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
+            showmessage('Data is deleted.'+#13+'Please click "OK" to back to the main program.');
           end
           else
-            showmessage('血糖計資料讀取完成，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
+            //showmessage('血糖計資料讀取完成，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
+            showmessage('Finish the data transmission.'+#13+'Please click "OK" to back to the main program.');
 
           XML.MeasureData:=ACCUDatalist;
           CreateXML(XML);
