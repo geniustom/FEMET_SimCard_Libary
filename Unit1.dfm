@@ -40463,7 +40463,7 @@ object Form1: TForm1
     TabOrder = 1
   end
   object DbgModChk: TCheckBox
-    Left = 471
+    Left = 468
     Top = 6
     Width = 97
     Height = 17

@@ -154,6 +154,10 @@ begin
    DbgModChk.Visible:= DebugMode;
    Accu_log.Visible:= DebugMode;
    DeviceSelChange(nil);
+
+   MD.Cells[0,0]:='Date';
+   MD.Cells[1,0]:='Time';
+   MD.Cells[2,0]:='Glucose';
 end;
 
 function CheckIdNo(sIdNo: string): Boolean;
@@ -664,9 +668,6 @@ var
  T:string;
 begin
     rowIndex:=1;
-    MD.Cells[0,0]:='Date';
-    MD.Cells[1,0]:='Time';
-    MD.Cells[2,0]:='Glucose';
     AbbottRow:=TStringlist.Create;
     AbbottRow.Delimiter:=#13;
     XML.IDNO:=ID.Text;
@@ -731,8 +732,9 @@ begin
         if FinishFlag=false then
         begin
           FinishFlag:=true;
-//          if Application.MessageBox('血糖計資料讀取完成，請問要刪除血糖計資料嗎?','您好',mb_iconquestion+MB_YESNO)=IDYES then
-          if Application.MessageBox('Finishing the data transmission.'+#13+'Delete all data?','Hello',mb_iconquestion+MB_YESNO)=IDYES then
+//        if Application.MessageBox('血糖計資料讀取完成，請問要刪除血糖計資料嗎?','您好',mb_iconquestion+MB_YESNO)=IDYES then
+//        if Application.MessageBox('Finishing the data transmission.'+#13+'Delete all data?','Hello',mb_iconquestion+MB_YESNO)=IDYES then
+          if messagedlg('Finishing the data transmission.'+#13+'Delete all data?',mtConfirmation ,[mbYes,mbNo], 0)=mrYes then
           begin
             DeleteDataXceedNew(Comm1);
             //showmessage('血糖計資料已刪除，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
@@ -766,9 +768,6 @@ var
 begin
     rowIndex:=1;
     DataCount:=0;
-    MD.Cells[0,0]:='Date';
-    MD.Cells[1,0]:='Time';
-    MD.Cells[2,0]:='Glucose';
     AbbottRow:=TStringlist.Create;
     AbbottRow.Delimiter:=#13;
     XML.IDNO:=ID.Text;
@@ -824,7 +823,8 @@ begin
       begin
         FinishFlag:=true;
 //      if Application.MessageBox('血糖計資料讀取完成，請問要刪除血糖計資料嗎?','您好',mb_iconquestion+MB_YESNO)=IDYES then
-        if Application.MessageBox('Finishing the data transmission.'+#13+'Delete all data?','Hello',mb_iconquestion+MB_YESNO)=IDYES then
+//      if Application.MessageBox('Finishing the data transmission.'+#13+'Delete all data?','Hello',mb_iconquestion+MB_YESNO)=IDYES then
+        if messagedlg('Finishing the data transmission.'+#13+'Delete all data?',mtConfirmation ,[mbYes,mbNo], 0)=mrYes then
         begin
           DeleteDataFreeStyle(Comm1);
           //showmessage('血糖計資料已刪除，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
@@ -854,9 +854,6 @@ var
  DataCount:integer;
 begin
     rowIndex:=1;
-    MD.Cells[0,0]:='Date';
-    MD.Cells[1,0]:='Time';
-    MD.Cells[2,0]:='Glucose';
     AbbottRow:=TStringlist.Create;
     AbbottRow.Delimiter:=#13;
     XML.IDNO:=ID.Text;
@@ -908,7 +905,8 @@ begin
       begin
         FinishFlag:=true;
 //      if Application.MessageBox('血糖計資料讀取完成，請問要刪除血糖計資料嗎?','您好',mb_iconquestion+MB_YESNO)=IDYES then
-        if Application.MessageBox('Finishing the data transmission.'+#13+'Delete all data?','Hello',mb_iconquestion+MB_YESNO)=IDYES then
+//      if Application.MessageBox('Finishing the data transmission.'+#13+'Delete all data?','Hello',mb_iconquestion+MB_YESNO)=IDYES then
+        if messagedlg('Finishing the data transmission.'+#13+'Delete all data?',mtConfirmation ,[mbYes,mbNo], 0)=mrYes then
         begin
           DeleteDataXceedOld(Comm1);
           //showmessage('血糖計資料已刪除，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');
@@ -940,9 +938,6 @@ var
  T:string;
 begin
     rowIndex:=1;
-    MD.Cells[0,0]:='Date';
-    MD.Cells[1,0]:='Time';
-    MD.Cells[2,0]:='Glucose';
     ACCURow:=TStringlist.Create;
     ACCURow.Delimiter:=',';
     XML.IDNO:=ID.Text;
@@ -975,7 +970,8 @@ begin
         begin
           FinishFlag:=true;
 //        if Application.MessageBox('血糖計資料讀取完成，請問要刪除血糖計資料嗎?','您好',mb_iconquestion+MB_YESNO)=IDYES then
-          if Application.MessageBox('Finishing the data transmission.'+#13+'Delete all data?','Hello',mb_iconquestion+MB_YESNO)=IDYES then
+//        if Application.MessageBox('Finishing the data transmission.'+#13+'Delete all data?','Hello',mb_iconquestion+MB_YESNO)=IDYES then
+          if messagedlg('Finishing the data transmission.'+#13+'Delete all data?',mtConfirmation ,[mbYes,mbNo], 0)=mrYes then
           begin
             DeleteDataACCU(Comm1);
             //showmessage('血糖計資料已刪除，請按 "OK" 回到上一頁'+#13+'，並按下"資料列表"做上傳動作');

@@ -23,7 +23,7 @@ object Form1: TForm1
     Top = 0
     Width = 571
     Height = 498
-    ActivePage = TabSheet4
+    ActivePage = TabSheet3
     Align = alClient
     DockSite = True
     RaggedRight = True
